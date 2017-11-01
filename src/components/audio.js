@@ -4,20 +4,17 @@
 // 2. Slow -> 15s not moving -> skip (ra009)
 
 // Audio Control
-import {soundManager} from "soundmanager"
+import {soundManager} from "soundmanager2"
 import isFunction from "lodash/isFunction"
-import { DEFAULT_VOLUME } from "../consts"
+// import { DEFAULT_VOLUME } from "../consts"
 import once from "lodash/once"
-
-// exports soundmanager to global context
-window.soundManager = soundManager
 
 const READY_STATES = ['uninitialised', 'failed', 'loading', 'success']
 const PLAY_STATES = ['uninitialised', 'playing']
 
 // const maxErrorLimit = 3
-const AudioID = 'douradio-audio'
-
+const AudioID = 'mpost-audio'
+const DEFAULT_VOLUME = 50
 let nof = function () {}
 
 export default class Audio {
@@ -40,8 +37,6 @@ export default class Audio {
     }, callbacks)
 
     this._smReady = false
-
-    // set sound url when unload
     this._soundURL = null
 
     // check options
@@ -112,9 +107,6 @@ export default class Audio {
       'autoPlay': false,
       'from': null,
       'loops': 1,
-
-    // , 'onid3': null
-    // , 'onload': null
       'onplay': () => {
         this.doIsPlayingCheck()
         this.options.onplay() // douradio.trigger('play')
@@ -135,19 +127,11 @@ export default class Audio {
       'whileloading': this.onWhileLoading.bind(this),
       'whileplaying': this.onWhilePlaying.bind(this),
       'onposition': null,
-      'onstop': null,
-    // , 'onfailure': null
-
+      'onstop': null,   
       'multiShot': false,
       'multiShotEvents': false,
-
       'position': null,
-
-    // , 'pan': 0,
-      'stream': true,
-    // 'to': null
-    // 'type': null
-    // 'usePolicyFile': false
+      'stream': true,   
       'volume': this._volume,
     })
 
@@ -156,7 +140,7 @@ export default class Audio {
 
   /**
    * onSuspend will be triggered in iOS/Android
-   * when Browser choose to not auto-play/download the media
+   * when Browser choose to not auto-play/` the media
    * here we pause the audio, and let the use click the play button to
    * start buffering the song
    */
@@ -204,7 +188,6 @@ export default class Audio {
 
   log() {
     return
-    // return console.debug.apply(console, ['douaudio', ...arguments])
   }
 
   setPosition(position) {
@@ -215,9 +198,7 @@ export default class Audio {
     this.audio.setPosition(position)
   }
 
-  clearChecker() {
-    // this._skipCount = 0
-    // this.errorCount = 0
+  clearChecker() {   
     this._lastPosition = null
     this._lagCount = 0
     if (this.isPlayingChecker) {
@@ -328,15 +309,10 @@ export default class Audio {
 
   }
 
-  // startBeplay() {}
-
   // pause the current playing song, play the next song
   play(url, position=null) {
-
-    // url = 'http://localhost:3000/' + url.slice(24)
-
+    
     this.clearChecker()
-
     // use in whileloading, set this to true when a sound is 100% loaded
     this._isFinishLoaded = false
 
@@ -360,8 +336,7 @@ export default class Audio {
         if (!success) {
           this.log('audio: audio load failure')
           return this.onLoadError()
-        }
-        // load success, clear error count
+        }     
         this.errorCount = 0
       },
       onfailure: () => {
@@ -462,8 +437,7 @@ export default class Audio {
       return
     }
 
-    this.log('audio will skip for the ', this._skipCount, ' times')
-    // unset currentSong
+    this.log('audio will skip for the ', this._skipCount, ' times')   
     return this.options.loadNextSong()
   }
 
@@ -480,10 +454,4 @@ export default class Audio {
       reason: reason,
     })
   }
-
 }
-
-
-
-// WEBPACK FOOTER //
-// ./src/douradio/audio/audio.js
