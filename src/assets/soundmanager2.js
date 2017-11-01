@@ -455,7 +455,7 @@ function SoundManager(smURL, smID) {
     }
 
     didSetup = true;
-
+    
     return sm2;
 
   };
