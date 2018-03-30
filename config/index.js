@@ -10,9 +10,9 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    productionSourceMap: true,
+    assetsSubDirectory: './static',
+    assetsPublicPath: '/tingshu/',
+    productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
@@ -37,6 +37,15 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false
+    cssSourceMap: false,
+    proxyTable: {
+        '/mpost': {
+            target: 'http://zhangxin.mail.10086ts.cn',
+            changeOrigin: true,
+            pathRewrite: {  
+                         
+            }
+        }   
+    }
   }
 }

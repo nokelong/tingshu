@@ -1,16 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Player from '@/components/Player'
+import routesMap from './map/' // 路由映射
+import Catalog from 'VIEWS/catalog'
+// import hooks from './hooks/' // 路由钩子
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Player',
-      component: Player
-    }
-  ]
+const router = new Router({
+	mode: 'history', //生产环境使用history模式
+    routes: [   
+	    {
+	      path: '/tingshu',	     
+	      name: 'catalog',
+	      component: Catalog
+	    },
+        ...routesMap
+    ]
 })
+
+// hooks(router);
+
+export default router;
+
